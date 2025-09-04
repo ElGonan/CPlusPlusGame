@@ -25,7 +25,6 @@ int main()
                 window.close();
         }
 
-
         // Clear screen
         window.clear(sf::Color(r,g,b));
         stickman.handleInput();

@@ -35,6 +35,13 @@ void Stickman::update(float deltaTime) {
     m_shape.move(m_velocity * deltaTime);
     
     // Colisión con el "suelo" (simulado)
+
+
+
+    // comment the todo if you want to test
+    @TODO: add collision with walls
+
+
     if(m_shape.getPosition().y > 550.0f) {
         m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, 550.0f));
         m_velocity.y = 0.0f;
