@@ -1,17 +1,14 @@
+#include "globals.h"
 #include <SFML/Graphics.hpp>
 #include "Stickman.h"
 
 int main()
 {
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Palitos y palotes");
+    sf::RenderWindow window(sf::VideoMode({S_W, S_H}), "Palitos y palotes");
     window.setFramerateLimit(60);
-    Stickman stickman(500.0f, 250.0f);
+    Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
     sf::Clock clock;
-
-    int R = 255;
-    int G = 255;
-    int B = 255;
 
     // Start the game loop
     while (window.isOpen())
@@ -26,7 +23,7 @@ int main()
         }
 
         // Clear screen
-        window.clear(sf::Color(R, G, B));
+        window.clear(sf::Color(R_BG, G_BG, B_BG));
         stickman.handleInput();
         stickman.update(deltaTime);
         stickman.draw(window);
