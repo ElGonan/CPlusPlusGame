@@ -14,7 +14,7 @@ extern float GRAVITY; // pixels per second squared
 
 // Stickman size and values
 extern float STICKMAN_HEIGHT;
-extern float STICKMAN_WIDTH;
+extern const float STICKMAN_WIDTH;
 extern float STICKMAN_SPEED;
 extern float STICKMAN_JUMP_HEIGHT;
 extern float STICKMAN_SIZE;

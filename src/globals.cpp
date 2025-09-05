@@ -10,7 +10,7 @@ int B_BG = 255;
 float GRAVITY = 981.0; // pixels per second squared
 
 float STICKMAN_HEIGHT = 500.0f;
-float STICKMAN_WIDTH = 250.0f;
+const float STICKMAN_WIDTH = 250.0f;
 float STICKMAN_SPEED = 500.0f;
 float STICKMAN_JUMP_HEIGHT = 750.0f;
 float STICKMAN_SIZE = 50.0f;
