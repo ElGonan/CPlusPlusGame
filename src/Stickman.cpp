@@ -51,6 +51,7 @@ void Stickman::update(float deltaTime) {
             m_shape.setPosition(sf::Vector2f(S_W - m_shape.getSize().x, m_shape.getPosition().y));
         }
     }
+    
 }
 
 void Stickman::draw(sf::RenderWindow& window) {

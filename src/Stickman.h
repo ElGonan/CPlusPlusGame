@@ -14,7 +14,7 @@ class Stickman {
     const float m_speed; // pixels per second
     const float m_jumpHeight; // pixels
     bool m_IsJumping; // pixels
-    
+
     public:
     // Constructor
     Stickman(float starX, float startY);
@@ -28,7 +28,9 @@ class Stickman {
     // Get the global bounds of the square
     sf::FloatRect getBounds(); 
     // FloatRect is a struct that contains the position and size of the rectangle
+
+    sf::Vector2f getPosition() const {return m_shape.getPosition();};
 };
 
-#endif // STICKMAN_H
+#endif //STICKMAN_H
 
