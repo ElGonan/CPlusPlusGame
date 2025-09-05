@@ -36,10 +36,7 @@ void Stickman::update(float deltaTime) {
     
     // Colisión con el "suelo" (simulado)
 
-
-
-    // comment the todo if you want to test
-    @TODO: add collision with walls
+    // @TODO: add collision with walls
 
 
     if(m_shape.getPosition().y > 550.0f) {

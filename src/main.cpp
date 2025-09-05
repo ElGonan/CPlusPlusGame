@@ -9,9 +9,9 @@ int main()
     Stickman stickman(500.0f, 250.0f);
     sf::Clock clock;
 
-    int r = 255;
-    int g = 255;
-    int b = 255;
+    int R = 255;
+    int G = 255;
+    int B = 255;
 
     // Start the game loop
     while (window.isOpen())
@@ -26,7 +26,7 @@ int main()
         }
 
         // Clear screen
-        window.clear(sf::Color(r,g,b));
+        window.clear(sf::Color(R, G, B));
         stickman.handleInput();
         stickman.update(deltaTime);
         stickman.draw(window);
