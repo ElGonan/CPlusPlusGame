@@ -43,14 +43,14 @@ void Stickman::update(float deltaTime) {
     }
 
     // collision con paredes
-    if(m_shape.getPosition().x < 0.0f || m_shape.getPosition().x + m_shape.getSize().x > S_W) {
-        m_velocity.x = 0.0f;
-        if(m_shape.getPosition().x < 0.0f) {
-            m_shape.setPosition(sf::Vector2f(0.0f, m_shape.getPosition().y));
-        } else {
-            m_shape.setPosition(sf::Vector2f(S_W - m_shape.getSize().x, m_shape.getPosition().y));
-        }
-    }
+    // if(m_shape.getPosition().x < 0.0f || m_shape.getPosition().x + m_shape.getSize().x > S_W) {
+    //     m_velocity.x = 0.0f;
+    //     if(m_shape.getPosition().x < 0.0f) {
+    //         m_shape.setPosition(sf::Vector2f(0.0f, m_shape.getPosition().y));
+    //     } else {
+    //         m_shape.setPosition(sf::Vector2f(S_W - m_shape.getSize().x, m_shape.getPosition().y));
+    //     }
+    // }
     
 }
 

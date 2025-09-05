@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Stickman.h"
 #include <iostream>
+#include "Camera.h"
 
 int main()
 {
@@ -11,8 +12,8 @@ int main()
     Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
     sf::Clock clock;
 
-    // Create view centered on stickman
-    sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(S_W, S_H));
+    // Create a Camera
+    Camera camera(S_W, S_H, 0.1f); // lower smoothing factor for slower movement    
 
     // Load background texture
     sf::Texture backgroundTexture;
@@ -49,8 +50,9 @@ int main()
         stickman.update(deltaTime);
 
         // Update view to follow stickman
-        view.setCenter(sf::Vector2f(stickman.getPosition().x, stickman.getPosition().y - STICKMAN_HEIGHT / 2.5f));
-        window.setView(view);
+        camera.setTarget(stickman.getPosition());
+        camera.update(deltaTime);
+        camera.applyToWindow(window);
 
         // Draw the background
         window.draw(backgroundSprite);

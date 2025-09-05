@@ -18,6 +18,9 @@ extern float STICKMAN_WIDTH;
 extern float STICKMAN_SPEED;
 extern float STICKMAN_JUMP_HEIGHT;
 extern float STICKMAN_SIZE;
-
+// Camera settings
+extern float CAMERA_SMOOTHING;
+extern float CAMERA_INITIAL_POS_X;
+extern float CAMERA_INITIAL_POS_Y;
 
 #endif // GLOBALS_H
