@@ -6,4 +6,7 @@ exec
 .vscode/
 .cache/
 build/
+bin/
+lib/
+include/
 
