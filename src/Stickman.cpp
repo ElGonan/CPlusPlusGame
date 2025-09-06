@@ -52,21 +52,23 @@ void Stickman::checkCollision(const Obstacle& obstacle) {
 
         // Resolve collision along the axis of least penetration
         if (minOverlapX < minOverlapY) {
-            if (std::abs(overlapLeft) < std::abs(overlapRight)) {
+            if (overlapLeft < overlapRight) {
                 // Collision from left
-                m_shape.move(sf::Vector2f(-overlapLeft, 0.0f));
+                m_shape.setPosition(sf::Vector2f(obstacleBounds.position.x - stickmanBounds.size.x, m_shape.getPosition().y));
             } else {
                 // Collision from right
-                m_shape.move(sf::Vector2f(overlapRight, 0.0f));
+                m_shape.setPosition(sf::Vector2f(obstacleBounds.position.x + obstacleBounds.size.x, m_shape.getPosition().y));
             }
+            // Stop horizontal movement when colliding
+            m_velocity.x = 0.0f;
         } else {
-            if (std::abs(overlapTop) < std::abs(overlapBottom)) {
+            if (overlapTop < overlapBottom) {
                 // Collision from top
-                m_shape.move(sf::Vector2f(0.0f, -overlapTop));
+                m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, obstacleBounds.position.y - stickmanBounds.size.y));
                 m_velocity.y = 0.0f; // Stop vertical movement
             } else {
                 // Collision from bottom
-                m_shape.move(sf::Vector2f(0.0f, overlapBottom));
+                m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, obstacleBounds.position.y + obstacleBounds.size.y));
                 m_velocity.y = 0.0f;
                 m_IsJumping = false; // Land on the obstacle
             }
@@ -83,12 +85,7 @@ void Stickman::update(float deltaTime, const Obstacle& floor) {
     
     // Check for collisions with the floor
     checkCollision(floor);
-    // // Ground collision
-    // if(m_shape.getPosition().y + m_shape.getSize().y > S_H) {
-    //     m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, S_H - m_shape.getSize().y));
-    //     m_velocity.y = 0.0f;
-    //     m_IsJumping = false;
-    // }
+    
 }
 
 void Stickman::draw(sf::RenderWindow& window) {
