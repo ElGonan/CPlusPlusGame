@@ -35,50 +35,34 @@ void Stickman::checkCollision(const Obstacle& obstacle) {
     sf::FloatRect stickmanBounds = m_shape.getGlobalBounds();
     sf::FloatRect obstacleBounds = obstacle.getBounds();
 
-    // Check if the two rectangles intersect (SFML 3.0 way)
-    if (stickmanBounds.findIntersection(obstacleBounds) != std::nullopt) {
-        // Get the intersection rectangle
-        auto intersection = stickmanBounds.findIntersection(obstacleBounds);
-        
-        // Calculate overlap in each direction
-        float overlapLeft = intersection->position.x - stickmanBounds.position.x;
-        float overlapRight = stickmanBounds.position.x + stickmanBounds.size.x - intersection->position.x - intersection->size.x;
-        float overlapTop =  stickmanBounds.position.y - intersection->position.y;
-        float overlapBottom = stickmanBounds.position.y + stickmanBounds.size.y - intersection->position.y - intersection->size.y;
+    auto intersection = stickmanBounds.findIntersection(obstacleBounds);
+    if (intersection != std::nullopt) {
+        float intersectWidth = intersection->size.x;
+        float intersectHeight = intersection->size.y;
 
-        // Find the minimum overlap
-        float minOverlapX = std::min(std::abs(overlapLeft), std::abs(overlapRight));
-        float minOverlapY = std::min(std::abs(overlapTop), std::abs(overlapBottom));
-
-        // Resolve collision along the axis of least penetration
-        if (minOverlapX < minOverlapY) {
-            std::cout << "OverlapLeft: " << overlapLeft << " OverlapRight: " << overlapRight << std::endl;
-            if (overlapLeft < overlapRight) {
-                // Collision from right
-                std::cout << "Collision from right" << std::endl;
-                m_shape.setPosition(sf::Vector2f(obstacleBounds.position.x + obstacleBounds.size.x, m_shape.getPosition().y));
-            } else {
-                // Collision from left
-                std::cout << "Collision from left" << std::endl;
+        // Decide si la colisión es lateral o vertical
+        if (intersectWidth < intersectHeight) {
+            // Colisión lateral
+            if (stickmanBounds.position.x < obstacleBounds.position.x) {
+                // Colisión desde la izquierda
                 m_shape.setPosition(sf::Vector2f(obstacleBounds.position.x - stickmanBounds.size.x, m_shape.getPosition().y));
-            // Stop horizontal movement when colliding
-            }
-        } else {
-            // std::cout << "OverlapBottom: " << overlapBottom << " OverlapTop: " << overlapTop << std::endl;
-            if (overlapBottom == 0.0f) {
-                // Collision from top
-                // std::cout << "Collision from top" << std::endl;
-
-                m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, obstacleBounds.position.y - stickmanBounds.size.y));
-                m_velocity.y = 0.0f; // Stop vertical movement
-                m_IsJumping = false; // Land on the obstacle
             } else {
-                // Collision from bottom
-                std::cout << "Collision from bottom" << std::endl;
-                m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x,  obstacleBounds.size.y + obstacleBounds.position.y ));
+                // Colisión desde la derecha
+                m_shape.setPosition(sf::Vector2f(obstacleBounds.position.x + obstacleBounds.size.x, m_shape.getPosition().y));
+            }
+            m_velocity.x = 0.0f;
+        } else {
+            // Colisión vertical
+            if (stickmanBounds.position.y < obstacleBounds.position.y) {
+                // Colisión desde arriba
+                m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, obstacleBounds.position.y - stickmanBounds.size.y));
                 m_velocity.y = 0.0f;
-                m_IsJumping = true; // Land on the obstacle
-
+                m_IsJumping = false;
+            } else {
+                // Colisión desde abajo
+                m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, obstacleBounds.position.y + obstacleBounds.size.y));
+                m_velocity.y = 0.0f;
+                m_IsJumping = true;
             }
         }
     }
