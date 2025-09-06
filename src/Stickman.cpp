@@ -3,6 +3,7 @@
 #include "Obstacle.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <algorithm>
 
 Stickman::Stickman(float startX, float startY) :
     m_speed(STICKMAN_SPEED),
@@ -30,67 +31,70 @@ void Stickman::handleInput() {
     }
 }
 
+void Stickman::checkCollision(const Obstacle& obstacle) {
+    sf::FloatRect stickmanBounds = m_shape.getGlobalBounds();
+    sf::FloatRect obstacleBounds = obstacle.getBounds();
 
-void Stickman::checkCollision(const Stickman& other) {
-    
-    sf::FloatRect stickmanBounds = this->getBounds();
-    sf::FloatRect otherBounce = other.getBounds();
-
-    auto intersection = stickmanBounds.findIntersection(otherBounce);   
-
-    if (intersection) {
-              // Calcular superposición en cada eje
-        float overlapLeft   = intersection->position.x + intersection->position.y  - otherBounce.position.x;
-        float overlapRight  = otherBounce.position.x + otherBounce.position.x - intersection->position.x;
-        float overlapTop    = intersection->position.y + intersection->position.y  - otherBounce.position.y;
-        float overlapBottom = otherBounce.position.y + otherBounce.position.y - intersection->position.y;        
-        // Encontrar la superposición mínima
-        float minOverlap = std::min({overlapLeft, overlapRight, overlapTop, overlapBottom});
+    // Check if the two rectangles intersect (SFML 3.0 way)
+    if (stickmanBounds.findIntersection(obstacleBounds) != std::nullopt) {
+        // Get the intersection rectangle
+        auto intersection = stickmanBounds.findIntersection(obstacleBounds);
         
-        if (minOverlap == overlapLeft) {
-            // Colisión por la izquierda
-            m_shape.setPosition(obstacleBounds.left - stickmanBounds.width, m_shape.getPosition().y);
-            m_velocity.x = 0;
-        } else if (minOverlap == overlapRight) {
-            // Colisión por la derecha
-            m_shape.setPosition(obstacleBounds.left + obstacleBounds.width, m_shape.getPosition().y);
-            m_velocity.x = 0;
-        } else if (minOverlap == overlapTop) {
-            // Colisión por arriba (pisando el obstáculo)
-            m_shape.setPosition(m_shape.getPosition().x, obstacleBounds.top - stickmanBounds.height);
-            m_velocity.y = 0;
-            m_IsJumping = false;
-        } else if (minOverlap == overlapBottom) {
-            // Colisión por abajo (golpeando cabeza)
-            m_shape.setPosition(m_shape.getPosition().x, obstacleBounds.top + obstacleBounds.height);
-            m_velocity.y = 0;
+        // Calculate overlap in each direction
+        float overlapLeft = intersection->position.x - stickmanBounds.position.x;
+        float overlapRight = stickmanBounds.position.x + stickmanBounds.size.x - intersection->position.x - intersection->size.x;
+        float overlapTop = intersection->position.y - stickmanBounds.position.y;
+        float overlapBottom = stickmanBounds.position.y + stickmanBounds.size.y - intersection->position.y - intersection->size.y;
+
+        // Find the minimum overlap
+        float minOverlapX = std::min(std::abs(overlapLeft), std::abs(overlapRight));
+        float minOverlapY = std::min(std::abs(overlapTop), std::abs(overlapBottom));
+
+        // Resolve collision along the axis of least penetration
+        if (minOverlapX < minOverlapY) {
+            if (std::abs(overlapLeft) < std::abs(overlapRight)) {
+                // Collision from left
+                m_shape.move(sf::Vector2f(-overlapLeft, 0.0f));
+            } else {
+                // Collision from right
+                m_shape.move(sf::Vector2f(overlapRight, 0.0f));
+            }
+        } else {
+            if (std::abs(overlapTop) < std::abs(overlapBottom)) {
+                // Collision from top
+                m_shape.move(sf::Vector2f(0.0f, -overlapTop));
+                m_velocity.y = 0.0f; // Stop vertical movement
+            } else {
+                // Collision from bottom
+                m_shape.move(sf::Vector2f(0.0f, overlapBottom));
+                m_velocity.y = 0.0f;
+                m_IsJumping = false; // Land on the obstacle
+            }
         }
     }
 }
 
-
-void Stickman::update(float deltaTime) {
-    // Aplicar gravedad
-    m_velocity.y += GRAVITY * deltaTime; // 981 píxeles/s²
+void Stickman::update(float deltaTime, const Obstacle& floor) {
+    // Apply gravity
+    m_velocity.y += GRAVITY * deltaTime;
     
-    // Movimiento
+    // Move the Stickman
     m_shape.move(m_velocity * deltaTime);
     
-    // Colisión con el suelo
-    if(m_shape.getPosition().y + m_shape.getSize().y > S_H) {
-        m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, S_H - m_shape.getSize().y));
-        m_velocity.y = 0.0f;
-        m_IsJumping = false;
-    }
-
-    
-    
+    // Check for collisions with the floor
+    checkCollision(floor);
+    // // Ground collision
+    // if(m_shape.getPosition().y + m_shape.getSize().y > S_H) {
+    //     m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, S_H - m_shape.getSize().y));
+    //     m_velocity.y = 0.0f;
+    //     m_IsJumping = false;
+    // }
 }
 
 void Stickman::draw(sf::RenderWindow& window) {
     window.draw(m_shape);
 }
 
-sf::FloatRect Stickman::getBounds() const{
+sf::FloatRect Stickman::getBounds() const {
     return m_shape.getGlobalBounds();
 }

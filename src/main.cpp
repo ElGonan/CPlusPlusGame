@@ -26,7 +26,7 @@ int main()
 
     // Load background texture
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("assets/background/elation.png")) {
+    if (!backgroundTexture.loadFromFile("../assets/background/elation.png")) {
         // Handle error - maybe use a fallback color
         std::cerr << "Failed to load background texture!" << std::endl;
     }
@@ -56,7 +56,7 @@ int main()
 
         // Stickman input
         stickman.handleInput();
-        stickman.update(deltaTime);
+        stickman.update(deltaTime, floor);
 
         // Update view to follow stickman
         camera.setTarget(stickman.getPosition());

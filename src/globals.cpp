@@ -1,7 +1,7 @@
 #include "globals.h"
 
-int S_H = 600;
-int S_W = 800;
+const float S_H = 600.0f;
+const float S_W = 800.0f;
 
 int R_BG = 255;
 int G_BG = 255;
