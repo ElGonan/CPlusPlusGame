@@ -1,0 +1,51 @@
+cmake_minimum_required(VERSION 3.16)
+project(CPlusPlusGame LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Output executable to bin/
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Enable compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# SFML location
+set(SFML_DIR "C:/Dev/SFML/lib/cmake/SFML")
+
+# Find SFML components
+find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System Audio)
+
+# Gather source files
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
+
+# Define executable
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+# Include directories
+target_include_directories(${PROJECT_NAME} PRIVATE include src)
+
+# Link SFML
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    SFML::Graphics
+    SFML::Window
+    SFML::System
+    SFML::Audio
+)
+
+# Move dll files to executable directory
+set(SFML_DLLS
+    C:/Dev/CPlusPlusGame/bin/sfml-graphics-d-3.dll
+    C:/Dev/CPlusPlusGame/bin/sfml-window-d-3.dll
+    C:/Dev/CPlusPlusGame/bin/sfml-system-d-3.dll
+    C:/Dev/CPlusPlusGame/bin/sfml-audio-d-3.dll
+)
+
+foreach(DLL ${SFML_DLLS})
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${DLL}
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>
+    )
+endforeach()
+

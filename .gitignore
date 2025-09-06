@@ -1,2 +1,9 @@
+# Executables
+exec
 *.exe
-/.vscode/
+
+# random folders
+.vscode/
+.cache/
+build/
+
