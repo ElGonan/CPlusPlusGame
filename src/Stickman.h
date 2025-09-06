@@ -3,11 +3,12 @@
 
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Obstacle.h"
 
 
 // This is the bounding box only
 class Stickman {
-    private:
+    protected:
     sf::RectangleShape m_shape;
     sf::Vector2f m_velocity;
 
@@ -15,19 +16,23 @@ class Stickman {
     const float m_jumpHeight; // pixels
     bool m_IsJumping; // pixels
 
+    void checkCollision(const Obstacle& other);
+
     public:
     // Constructor
     Stickman(float starX, float startY);
     
     // Moving the square
-    void update(float deltaTime);
+    void update(float deltaTime, const Obstacle& floor, const Obstacle& platform);
     // Draw the square
     void draw(sf::RenderWindow &window);
     // Handle input
     void handleInput();
     // Get the global bounds of the square
-    sf::FloatRect getBounds(); 
+    sf::FloatRect getBounds() const; 
     // FloatRect is a struct that contains the position and size of the rectangle
+
+    
 
     sf::Vector2f getPosition() const {return m_shape.getPosition();};
 };
