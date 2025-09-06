@@ -19,14 +19,15 @@ int main()
     window.setFramerateLimit(60);
     Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
     sf::Clock clock;
-    Obstacle floor = Obstacle(-55555.0f, S_H, 99999.0f, 20.0f, sf::Color::Black); 
+    Obstacle floor = Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black); 
+    Obstacle platform = Obstacle(900.0f, S_H - 150.0f, 600.0f, 60.0f, sf::Color::Cyan);
 
     // Create a Camera
     Camera camera(S_W, S_H, CAMERA_SMOOTHING); // lower smoothing factor for slower movement    
 
     // Load background texture
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("../assets/background/elation.png")) {
+    if (!backgroundTexture.loadFromFile("assets/background/elation.png")) {
         // Handle error - maybe use a fallback color
         std::cerr << "Failed to load background texture!" << std::endl;
     }
@@ -56,7 +57,7 @@ int main()
 
         // Stickman input
         stickman.handleInput();
-        stickman.update(deltaTime, floor);
+        stickman.update(deltaTime, floor, platform);
 
         // Update view to follow stickman
         camera.setTarget(stickman.getPosition());
@@ -69,6 +70,9 @@ int main()
         stickman.draw(window);
         // Draw the floor
         floor.draw(window);
+
+        // Draw the platform
+        platform.draw(window);
        
         // Update the window
         window.display();

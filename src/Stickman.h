@@ -23,7 +23,7 @@ class Stickman {
     Stickman(float starX, float startY);
     
     // Moving the square
-    void update(float deltaTime, const Obstacle& floor);
+    void update(float deltaTime, const Obstacle& floor, const Obstacle& platform);
     // Draw the square
     void draw(sf::RenderWindow &window);
     // Handle input
