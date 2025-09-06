@@ -20,7 +20,7 @@ int main()
     Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
     sf::Clock clock;
     Obstacle floor = Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black); 
-    Obstacle platform = Obstacle(900.0f, S_H - 150.0f, 600.0f, 60.0f, sf::Color::Cyan);
+    Obstacle platform = Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan);
 
     // Create a Camera
     Camera camera(S_W, S_H, CAMERA_SMOOTHING); // lower smoothing factor for slower movement    
