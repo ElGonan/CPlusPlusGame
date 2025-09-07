@@ -1,7 +1,7 @@
 #ifndef STICKMAN_H
 #define STICKMAN_H
 
-#pragma once
+// #pragma once
 #include <SFML/Graphics.hpp>
 #include "Obstacle.h"
 
@@ -11,6 +11,7 @@ class Stickman {
     protected:
     sf::RectangleShape m_shape;
     sf::Vector2f m_velocity;
+    sf::Color m_color;
 
     const float m_speed; // pixels per second
     const float m_jumpHeight; // pixels
@@ -23,7 +24,7 @@ class Stickman {
     Stickman(float starX, float startY);
     
     // Moving the square
-    virtual void update(float deltaTime, const Obstacle& floor, const Obstacle& platform);
+    virtual void update(float deltaTime, const std::vector<Obstacle>& obstacles);
     // Draw the square
     void draw(sf::RenderWindow &window);
     // Handle input

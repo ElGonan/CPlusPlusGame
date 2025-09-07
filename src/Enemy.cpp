@@ -3,15 +3,18 @@
 Enemy::Enemy(float startX, float startY) :
     Stickman(startX, startY)
 {
+    m_shape.setFillColor(m_color);
 }
 
 void Enemy::handleInput() {
-    // Enemies might have different AI-based movement
+    // Enemy does not handle input
 }
 
-void Enemy::update(float deltaTime, const Obstacle& floor, const Obstacle& platform) {
-    Stickman::update(deltaTime, floor, platform);
+void Enemy::update(float deltaTime, const std::vector<Obstacle>& obstacles) {
+    Stickman::update(deltaTime, obstacles);
 }
+
+
 void Enemy::draw(sf::RenderWindow &window) {
     window.draw(m_shape);
 }

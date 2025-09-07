@@ -1,4 +1,5 @@
 #include "globals.h"
+#include <SFML/Graphics.hpp>
 
 const float S_H = 600.0f;
 const float S_W = 800.0f;
@@ -9,6 +10,7 @@ int B_BG = 255;
 
 float GRAVITY = 981.0; // pixels per second squared
 
+sf::Color STICKMAN_COLOR = sf::Color::Red;
 float STICKMAN_HEIGHT = 500.0f;
 const float STICKMAN_WIDTH = 250.0f;
 float STICKMAN_SPEED = 500.0f;

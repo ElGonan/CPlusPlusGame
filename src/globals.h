@@ -1,5 +1,6 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
+#include <SFML/Graphics.hpp>
 
 // Screen dimensions
 extern const float S_W;
@@ -13,6 +14,7 @@ extern int B_BG;
 extern float GRAVITY; // pixels per second squared
 
 // Stickman size and values
+extern sf::Color STICKMAN_COLOR;
 extern float STICKMAN_HEIGHT;
 extern const float STICKMAN_WIDTH;
 extern float STICKMAN_SPEED;

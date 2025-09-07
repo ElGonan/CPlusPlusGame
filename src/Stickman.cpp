@@ -8,12 +8,14 @@
 Stickman::Stickman(float startX, float startY) :
     m_speed(STICKMAN_SPEED),
     m_IsJumping(false),
-    m_jumpHeight(STICKMAN_JUMP_HEIGHT)
+    m_jumpHeight(STICKMAN_JUMP_HEIGHT),
+    m_color(STICKMAN_COLOR)
 {
     m_shape.setSize(sf::Vector2f(STICKMAN_SIZE, STICKMAN_SIZE));
     m_shape.setPosition(sf::Vector2f(startX, startY));
-    m_shape.setFillColor(sf::Color::Red);
+    m_shape.setFillColor(m_color);
     m_velocity = sf::Vector2f(0.0f, 0.0f);
+   
 }
 
 void Stickman::handleInput() {
@@ -68,17 +70,18 @@ void Stickman::checkCollision(const Obstacle& obstacle) {
     }
 }
 
-void Stickman::update(float deltaTime, const Obstacle& floor, const Obstacle& platform) {
+void Stickman::update(float deltaTime, const std::vector<Obstacle>& obstacles) {
     // Apply gravity
     m_velocity.y += GRAVITY * deltaTime;
     
     // Move the Stickman
     m_shape.move(m_velocity * deltaTime);
-    
-    // Check for collisions with the floor
-    checkCollision(floor);
 
-    checkCollision(platform);
+    // Check for collisions with all obstacles
+    for (const auto& obstacle : obstacles) {
+        checkCollision(obstacle);
+    }
+    
 
     handleInput();
     

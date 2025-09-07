@@ -5,10 +5,12 @@
 #include "Stickman.h"
 
 class Enemy : public Stickman {
+    private:
+    sf::Color m_color = sf::Color::Yellow;
     public:
     Enemy(float startX, float startY);
     void handleInput() override;
-    void update(float deltaTime, const Obstacle& floor, const Obstacle& platform) override;
+    void update(float deltaTime, const std::vector<Obstacle>& obstacles) override;
     void draw(sf::RenderWindow &window);
 
 };

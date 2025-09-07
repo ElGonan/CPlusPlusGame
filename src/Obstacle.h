@@ -17,7 +17,7 @@ class Obstacle {
         sf::Vector2f getPosition() const { return o_position;}
         sf::Vector2f getSize() const { return o_size;}
 
-        void draw(sf::RenderWindow &window) {
+        void draw(sf::RenderWindow &window) const {
             window.draw(o_shape);
         }
 

@@ -20,11 +20,20 @@ int main()
     window.setFramerateLimit(60);
     sf::Clock clock;
 
-    // Create scene objects
+    
+
+    // Entity objects
     Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
     Enemy enemy(STICKMAN_HEIGHT, STICKMAN_WIDTH+50.0f);
-    Obstacle floor = Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black); 
-    Obstacle platform = Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan);
+    // Obstacle objects
+    // Obstacle floor = Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black); 
+    // Obstacle platform = Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan);
+    std::vector<Obstacle> obstacles = {
+        Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black), // Floor
+        Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan), // Platform
+        Obstacle(600.0f, S_H - 300.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Higher Platform
+        Obstacle(1000.0f, S_H - 450.0f, 200.0f, 20.0f, sf::Color::Cyan)  // Even Higher Platform
+    };
 
     // Create a Camera
     Camera camera(S_W, S_H, CAMERA_SMOOTHING); // lower smoothing factor for slower movement    
@@ -61,9 +70,9 @@ int main()
 
         // Stickman input
         stickman.handleInput();
-        stickman.update(deltaTime, floor, platform);
+        stickman.update(deltaTime, obstacles);
 
-        enemy.update(deltaTime, floor, platform);
+        enemy.update(deltaTime, obstacles);
 
         // Update view to follow stickman
         camera.setTarget(stickman.getPosition());
@@ -71,15 +80,14 @@ int main()
         camera.applyToWindow(window);
 
         // Draw the background
-        // window.draw(backgroundSprite);
+        window.draw(backgroundSprite);
         // Draw the stickman
         stickman.draw(window);
         enemy.draw(window);
-        // Draw the floor
-        floor.draw(window);
-
-        // Draw the platform
-        platform.draw(window);
+        // Draw the obstacles
+        for (const auto& obstacle : obstacles) {
+            obstacle.draw(window);
+        }
        
         // Update the window
         window.display();
