@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Camera.h"
 #include "Obstacle.h"
+#include "Enemy.h"
 
 int main()
 {
@@ -17,8 +18,11 @@ int main()
         static_cast<unsigned int>(S_W), 
         static_cast<unsigned int>(S_H)}), "Palitos y palotes");
     window.setFramerateLimit(60);
-    Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
     sf::Clock clock;
+
+    // Create scene objects
+    Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
+    Enemy enemy(STICKMAN_HEIGHT, STICKMAN_WIDTH+50.0f);
     Obstacle floor = Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black); 
     Obstacle platform = Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan);
 
@@ -27,7 +31,7 @@ int main()
 
     // Load background texture
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("assets/background/elation.png")) {
+    if (!backgroundTexture.loadFromFile("../assets/background/elation.png")) {
         // Handle error - maybe use a fallback color
         std::cerr << "Failed to load background texture!" << std::endl;
     }
@@ -59,15 +63,18 @@ int main()
         stickman.handleInput();
         stickman.update(deltaTime, floor, platform);
 
+        enemy.update(deltaTime, floor, platform);
+
         // Update view to follow stickman
         camera.setTarget(stickman.getPosition());
         camera.update(deltaTime);
         camera.applyToWindow(window);
 
         // Draw the background
-        window.draw(backgroundSprite);
+        // window.draw(backgroundSprite);
         // Draw the stickman
         stickman.draw(window);
+        enemy.draw(window);
         // Draw the floor
         floor.draw(window);
 

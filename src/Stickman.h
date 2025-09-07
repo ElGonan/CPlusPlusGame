@@ -23,11 +23,11 @@ class Stickman {
     Stickman(float starX, float startY);
     
     // Moving the square
-    void update(float deltaTime, const Obstacle& floor, const Obstacle& platform);
+    virtual void update(float deltaTime, const Obstacle& floor, const Obstacle& platform);
     // Draw the square
     void draw(sf::RenderWindow &window);
     // Handle input
-    void handleInput();
+    virtual void handleInput();
     // Get the global bounds of the square
     sf::FloatRect getBounds() const; 
     // FloatRect is a struct that contains the position and size of the rectangle
