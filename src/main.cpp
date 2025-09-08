@@ -12,9 +12,11 @@ int main()
 {
 
     int collectedObjects = 0;
+    
+    // New font @mirabay
     const sf::Font font("assets/fonts/minecraft_font.ttf");
     sf::Text counterText(font, "Objects: 0", 24);
-    counterText.setFillColor(sf::Color::White);
+    counterText.setFillColor(sf::Color::Black);
 
     std::cout << "SFML Version: " << SFML_VERSION_MAJOR << "." 
     << SFML_VERSION_MINOR << "." << SFML_VERSION_PATCH << std::endl;
@@ -41,7 +43,7 @@ int main()
         new Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan), // Platform
         new Obstacle(600.0f, S_H - 300.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Higher Platform
         new Obstacle(1000.0f, S_H - 450.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higher Platform
-        new Object(1400.0f, S_H - 170.0f, 50.0f, 50.0f, sf::Color::Green) // Object to interact with
+        new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
     };
 
 
@@ -88,12 +90,26 @@ int main()
         camera.setTarget(stickman.getPosition());
         camera.update(deltaTime);
         camera.applyToWindow(window);
+        counterText.setPosition(sf::Vector2f(camera.getCenter().x - S_W / 2 + 10, camera.getCenter().y - S_H / 2 + 10));
 
         // Draw the background
         window.draw(backgroundSprite);
         // Draw the stickman
         stickman.draw(window);
         enemy.draw(window);
+
+        // Check if objects are collected and update counter
+        for (auto it = obstacles.begin(); it != obstacles.end(); ) {
+            Object* obj = dynamic_cast<Object*>(*it);
+            if (obj && !obj->isVisible()) {
+                collectedObjects++;
+                delete obj;
+                it = obstacles.erase(it); // Eliminate the collected object
+            } else {
+                ++it;
+            }
+        }
+
         // Draw the obstacles
         for (Obstacle* obstacle : obstacles) {
             obstacle->draw(window);
@@ -103,7 +119,6 @@ int main()
         counterText.setString("Objects: " + std::to_string(collectedObjects));
         window.draw(counterText);
         
-
         // Update the window
         window.display();
     }
