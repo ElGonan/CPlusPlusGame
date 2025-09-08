@@ -10,7 +10,7 @@ class Enemy : public Stickman {
     public:
     Enemy(float startX, float startY);
     void handleInput() override;
-    void update(float deltaTime, const std::vector<Obstacle>& obstacles) override;
+    void update(float deltaTime, const std::vector<Obstacle*>& obstacles) override;
     void draw(sf::RenderWindow &window);
 
 };

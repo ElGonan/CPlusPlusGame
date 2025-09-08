@@ -10,7 +10,7 @@ void Enemy::handleInput() {
     // Enemy does not handle input
 }
 
-void Enemy::update(float deltaTime, const std::vector<Obstacle>& obstacles) {
+void Enemy::update(float deltaTime, const std::vector<Obstacle*>& obstacles) {
     Stickman::update(deltaTime, obstacles);
 }
 

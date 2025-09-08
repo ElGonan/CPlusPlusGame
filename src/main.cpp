@@ -1,15 +1,25 @@
 #include "globals.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include "Stickman.h"
 #include <iostream>
 #include "Camera.h"
 #include "Obstacle.h"
 #include "Enemy.h"
+#include "Object.h"
 
 int main()
 {
-     std::cout << "SFML Version: " << SFML_VERSION_MAJOR << "." 
-              << SFML_VERSION_MINOR << "." << SFML_VERSION_PATCH << std::endl;
+
+    int collectedObjects = 0;
+    
+    // New font @mirabay
+    const sf::Font font("assets/fonts/minecraft_font.ttf");
+    sf::Text counterText(font, "Potions: 0", 24);
+    counterText.setFillColor(sf::Color::Black);
+
+    std::cout << "SFML Version: " << SFML_VERSION_MAJOR << "." 
+    << SFML_VERSION_MINOR << "." << SFML_VERSION_PATCH << std::endl;
 
 
 
@@ -23,17 +33,22 @@ int main()
     
 
     // Entity objects
-    Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
-    Enemy enemy(STICKMAN_HEIGHT, STICKMAN_WIDTH + 50.0f);
+    Stickman stickman(STICKMAN_WIDTH, STICKMAN_HEIGHT );
+    Enemy enemy(STICKMAN_WIDTH  + 100.0f, STICKMAN_HEIGHT);
+
     // Obstacle objects
-    // Obstacle floor = Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black); 
-    // Obstacle platform = Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan);
-    std::vector<Obstacle> obstacles = {
-        Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black), // Floor
-        Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan), // Platform
-        Obstacle(600.0f, S_H - 300.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Higher Platform
-        Obstacle(1000.0f, S_H - 450.0f, 200.0f, 20.0f, sf::Color::Cyan)  // Even Higher Platform
+    std::vector<Obstacle*> obstacles = {
+        // Obstacle constructor: posx, posy, width, height, color
+        new Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black), // Floor
+        new Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan), // Platform
+        new Obstacle(600.0f, S_H - 300.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Higher Platform
+        new Obstacle(1000.0f, S_H - 450.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higher Platform
+        new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(1010.0f, S_H - 550.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(660.0f, S_H - 400.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
+
     };
+
 
     // Create a Camera
     Camera camera(S_W, S_H, CAMERA_SMOOTHING); // lower smoothing factor for slower movement    
@@ -78,18 +93,45 @@ int main()
         camera.setTarget(stickman.getPosition());
         camera.update(deltaTime);
         camera.applyToWindow(window);
+        counterText.setPosition(sf::Vector2f(camera.getCenter().x - S_W / 2 + 10, camera.getCenter().y - S_H / 2 + 10));
 
         // Draw the background
         window.draw(backgroundSprite);
         // Draw the stickman
         stickman.draw(window);
         enemy.draw(window);
-        // Draw the obstacles
-        for (const auto& obstacle : obstacles) {
-            obstacle.draw(window);
+
+        // Check if objects are collected and update counter
+        for (auto it = obstacles.begin(); it != obstacles.end(); ) {
+            Object* obj = dynamic_cast<Object*>(*it);
+            if (obj && !obj->isVisible()) {
+                collectedObjects++;
+                delete obj;
+                it = obstacles.erase(it); // Eliminate the collected object
+            } else {
+                ++it;
+            }
         }
-       
+
+        // Draw the obstacles
+        for (Obstacle* obstacle : obstacles) {
+            obstacle->draw(window);
+        }
+
+        // Update and draw the collected objects counter
+        counterText.setString("Potions: " + std::to_string(collectedObjects));
+        window.draw(counterText);
+        
         // Update the window
         window.display();
     }
+
+    // FREE ALL THE MEMORY
+    for (auto* obstacle : obstacles) {
+        delete obstacle;
+    }
+
+    std::cout << "Exiting the game. Goodbye!" << std::endl;
+
+    return 0;
 }

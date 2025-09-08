@@ -17,14 +17,14 @@ class Stickman {
     const float m_jumpHeight; // pixels
     bool m_IsJumping; // pixels
 
-    void checkCollision(const Obstacle& other);
+    void checkCollision(Obstacle& other);
 
     public:
     // Constructor
     Stickman(float starX, float startY);
     
     // Moving the square
-    virtual void update(float deltaTime, const std::vector<Obstacle>& obstacles);
+    virtual void update(float deltaTime, const std::vector<Obstacle*>& obstacles);
     // Draw the square
     void draw(sf::RenderWindow &window);
     // Handle input
