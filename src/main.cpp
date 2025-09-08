@@ -43,10 +43,13 @@ int main()
         new Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan), // Platform
         new Obstacle(600.0f, S_H - 300.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Higher Platform
         new Obstacle(1000.0f, S_H - 450.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higher Platform
+        new Obstacle(500.0f, S_H - 600.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higherer Platform
+        new Obstacle(0.0f, S_H - 750.0f, 600.0f, 20.0f, sf::Color::Cyan),  // Even Highererer Platform
         new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
         new Object(1010.0f, S_H - 550.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(660.0f, S_H - 400.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
-
+        new Object(550.0f, S_H - 710.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(50.0f, S_H - 760.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(0.0f, S_H - 750.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
     };
 
 

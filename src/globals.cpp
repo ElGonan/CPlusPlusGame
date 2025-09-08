@@ -1,8 +1,8 @@
 #include "globals.h"
 #include <SFML/Graphics.hpp>
 
-const float S_H = 600.0f;
-const float S_W = 800.0f;
+const float S_H = 800.0f;
+const float S_W = 1000.0f;
 
 int R_BG = 255;
 int G_BG = 255;
