@@ -15,7 +15,7 @@ int main()
     
     // New font @mirabay
     const sf::Font font("assets/fonts/minecraft_font.ttf");
-    sf::Text counterText(font, "Objects: 0", 24);
+    sf::Text counterText(font, "Potions: 0", 24);
     counterText.setFillColor(sf::Color::Black);
 
     std::cout << "SFML Version: " << SFML_VERSION_MAJOR << "." 
@@ -43,7 +43,10 @@ int main()
         new Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan), // Platform
         new Obstacle(600.0f, S_H - 300.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Higher Platform
         new Obstacle(1000.0f, S_H - 450.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higher Platform
-        new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
+        new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(1010.0f, S_H - 550.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(660.0f, S_H - 400.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
+
     };
 
 
@@ -116,7 +119,7 @@ int main()
         }
 
         // Update and draw the collected objects counter
-        counterText.setString("Objects: " + std::to_string(collectedObjects));
+        counterText.setString("Potions: " + std::to_string(collectedObjects));
         window.draw(counterText);
         
         // Update the window

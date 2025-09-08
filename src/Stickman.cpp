@@ -28,7 +28,7 @@ void Stickman::handleInput() {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
         m_velocity.x = m_speed;
     }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !m_IsJumping) {
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) && !m_IsJumping) {
         m_velocity.y = -m_jumpHeight;
         m_IsJumping = true;
     }
