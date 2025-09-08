@@ -21,8 +21,6 @@ int main()
     std::cout << "SFML Version: " << SFML_VERSION_MAJOR << "." 
     << SFML_VERSION_MINOR << "." << SFML_VERSION_PATCH << std::endl;
 
-
-
     // Create the main window
     sf::RenderWindow window(sf::VideoMode({
         static_cast<unsigned int>(S_W), 
@@ -30,14 +28,10 @@ int main()
     window.setFramerateLimit(60);
     sf::Clock clock;
 
-    
-
     // Entity objects
     Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
-    Enemy enemy(STICKMAN_HEIGHT,S_H-20.0f);
-    std::vector<Stickman> enemies = {enemy};
-   
-    
+    Enemy enemy(STICKMAN_HEIGHT,S_H-STICKMAN_HEIGHT);
+    std::vector<Stickman*> enemies = {&enemy};
 
     // Obstacle objects
     std::vector<Obstacle*> obstacles = {
@@ -90,7 +84,6 @@ int main()
         window.clear(sf::Color(R_BG, G_BG, B_BG));
 
         // Stickman input
-        stickman.handleInput();
         stickman.update(deltaTime, obstacles, enemies);
 
         enemy.update(deltaTime, obstacles);

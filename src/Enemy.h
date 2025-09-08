@@ -12,6 +12,7 @@ class Enemy : public Stickman {
     void handleInput() override;
     void update(float deltaTime, const std::vector<Obstacle*>& obstacles) override;
     void draw(sf::RenderWindow &window);
+    bool isEnemy() const override { return true; };
 
 };
 

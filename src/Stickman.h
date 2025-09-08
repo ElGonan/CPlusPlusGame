@@ -21,7 +21,7 @@ class Stickman {
     void checkCollision(const Stickman& other);
 
     private:
-    
+
     bool m_isPushed;
     float m_pushForce;
     float m_pushDuration;
@@ -34,7 +34,7 @@ class Stickman {
     
     // Moving the square
     virtual void update(float deltaTime, const std::vector<Obstacle*>& obstacles);
-    virtual void update(float deltaTime, const std::vector<Obstacle*>& obstacles , const std::vector<Stickman>& enemies);
+    virtual void update(float deltaTime, const std::vector<Obstacle*>& obstacles , const std::vector<Stickman*>& enemies);
     // Draw the square
     void draw(sf::RenderWindow &window);
     // Handle input
@@ -44,8 +44,17 @@ class Stickman {
     // FloatRect is a struct that contains the position and size of the rectangle
 
     
-
+    // Get the position of the square
     sf::Vector2f getPosition() const {return m_shape.getPosition();};
+
+    // pushBack
+    void pushBack(const sf::Vector2f& direction);
+    void updatePush(float deltaTime);
+
+    // Check if stickman is an enemy
+    virtual bool isEnemy() const { return false; };
+
+    virtual sf::RectangleShape getShape() const { return m_shape; }
 };
 
 #endif //STICKMAN_H

@@ -5,12 +5,18 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 Stickman::Stickman(float startX, float startY) :
     m_speed(STICKMAN_SPEED),
     m_IsJumping(false),
     m_jumpHeight(STICKMAN_JUMP_HEIGHT),
-    m_color(STICKMAN_COLOR)
+    m_color(STICKMAN_COLOR),
+
+    m_isPushed(false),
+    m_pushForce(300.0f),
+    m_pushDuration(0.2f),
+    m_pushTimer(0.0f)
 {
     m_shape.setSize(sf::Vector2f(STICKMAN_SIZE, STICKMAN_SIZE));
     m_shape.setPosition(sf::Vector2f(startX, startY));
@@ -83,29 +89,38 @@ void Stickman::checkCollision(const Stickman& other) {
 
     auto intersection = stickmanBounds.findIntersection(otherBounds);
     if (intersection != std::nullopt) {
+        // Calcular dirección del retroceso
+        sf::Vector2f direction(
+            m_shape.getPosition().x - other.getPosition().x,
+            m_shape.getPosition().y - other.getPosition().y
+        );
+        
+        // Normalizar la dirección
+        float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+        if (length != 0) {
+            direction.x /= length;
+            direction.y /= length;
+        }
+        
+        // Aplicar retroceso
+        pushBack(direction);
+        
+        // Ajustar posición para evitar solapamiento
         float intersectWidth = intersection->size.x;
         float intersectHeight = intersection->size.y;
 
-        // Decide si la colisión es lateral o vertical
         if (intersectWidth < intersectHeight) {
-            // Colisión lateral
             if (stickmanBounds.position.x < otherBounds.position.x) {
-                // Colisión desde la izquierda
                 m_shape.setPosition(sf::Vector2f(otherBounds.position.x - stickmanBounds.size.x, m_shape.getPosition().y));
             } else {
-                // Colisión desde la derecha
                 m_shape.setPosition(sf::Vector2f(otherBounds.position.x + otherBounds.size.x, m_shape.getPosition().y));
             }
-            m_velocity.x = 0.0f;
         } else {
-            // Colisión vertical
             if (stickmanBounds.position.y < otherBounds.position.y) {
-                // Colisión desde arriba
                 m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, otherBounds.position.y - stickmanBounds.size.y));
                 m_velocity.y = 0.0f;
                 m_IsJumping = false;
             } else {
-                // Colisión desde abajo
                 m_shape.setPosition(sf::Vector2f(m_shape.getPosition().x, otherBounds.position.y + otherBounds.size.y));
                 m_velocity.y = 0.0f;
                 m_IsJumping = true;
@@ -114,11 +129,14 @@ void Stickman::checkCollision(const Stickman& other) {
     }
 }
 
-
-
 void Stickman::update(float deltaTime, const std::vector<Obstacle*>& obstacles) {
-    // Apply gravity
-    m_velocity.y += GRAVITY * deltaTime;
+    updatePush(deltaTime);
+
+    if (!m_isPushed)
+    {
+        m_velocity.y += GRAVITY * deltaTime;
+    }
+
     
     // Move the Stickman
     m_shape.move(m_velocity * deltaTime);
@@ -128,16 +146,21 @@ void Stickman::update(float deltaTime, const std::vector<Obstacle*>& obstacles) 
         checkCollision(*obstacle);
     }
 
-    handleInput();
+    if (!m_isPushed)
+    {
+       handleInput();
+    }
+    
+    
     
 }
 
-void Stickman::update(float deltaTime,const std::vector<Obstacle*>& obstacles , const std::vector<Stickman>& enemies) {
+void Stickman::update(float deltaTime,const std::vector<Obstacle*>& obstacles , const std::vector<Stickman*>& enemies) {
     update(deltaTime, obstacles);
     // Check for collisions with other stickmen
     for (const auto& other : enemies) {
-        if (&other != this) { // Avoid self-collision
-            checkCollision(other);
+        if (other != this) { // Avoid self-collision
+            checkCollision(*other);
         }
     }
 }
@@ -148,4 +171,22 @@ void Stickman::draw(sf::RenderWindow& window) {
 
 sf::FloatRect Stickman::getBounds() const {
     return m_shape.getGlobalBounds();
+}
+
+void Stickman::pushBack(const sf::Vector2f& direction) {
+    if (!m_isPushed) {
+        m_velocity = direction * m_pushForce;
+        m_isPushed = true;
+        m_pushTimer = 0.0f;
+    }
+}
+
+void Stickman::updatePush(float deltaTime) {
+    if (m_isPushed) {
+        m_pushTimer += deltaTime;
+        if (m_pushTimer >= m_pushDuration) {
+            m_isPushed = false;
+            m_velocity.x = 0.0f; // Detener el retroceso después de la duración
+        }
+    }
 }
