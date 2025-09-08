@@ -17,7 +17,16 @@ class Stickman {
     const float m_jumpHeight; // pixels
     bool m_IsJumping; // pixels
 
-    void checkCollision(Obstacle& other);
+    void checkCollision(const Obstacle& obstacle);
+    void checkCollision(const Stickman& other);
+
+    private:
+    
+    bool m_isPushed;
+    float m_pushForce;
+    float m_pushDuration;
+    float m_pushTimer;
+
 
     public:
     // Constructor
@@ -25,6 +34,7 @@ class Stickman {
     
     // Moving the square
     virtual void update(float deltaTime, const std::vector<Obstacle*>& obstacles);
+    virtual void update(float deltaTime, const std::vector<Obstacle*>& obstacles , const std::vector<Stickman>& enemies);
     // Draw the square
     void draw(sf::RenderWindow &window);
     // Handle input

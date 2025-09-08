@@ -14,7 +14,7 @@ int main()
     int collectedObjects = 0;
     
     // New font @mirabay
-    const sf::Font font("assets/fonts/minecraft_font.ttf");
+    const sf::Font font("../assets/fonts/minecraft_font.ttf");
     sf::Text counterText(font, "Potions: 0", 24);
     counterText.setFillColor(sf::Color::Black);
 
@@ -33,8 +33,11 @@ int main()
     
 
     // Entity objects
-    Stickman stickman(STICKMAN_WIDTH, STICKMAN_HEIGHT );
-    Enemy enemy(STICKMAN_WIDTH  + 100.0f, STICKMAN_HEIGHT);
+    Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
+    Enemy enemy(STICKMAN_HEIGHT,S_H-20.0f);
+    std::vector<Stickman> enemies = {enemy};
+   
+    
 
     // Obstacle objects
     std::vector<Obstacle*> obstacles = {
@@ -45,11 +48,11 @@ int main()
         new Obstacle(1000.0f, S_H - 450.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higher Platform
         new Obstacle(500.0f, S_H - 600.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higherer Platform
         new Obstacle(0.0f, S_H - 750.0f, 600.0f, 20.0f, sf::Color::Cyan),  // Even Highererer Platform
-        new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(1010.0f, S_H - 550.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(550.0f, S_H - 710.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(50.0f, S_H - 760.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(0.0f, S_H - 750.0f, 100.0f, 100.0f, "assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
+        new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(1010.0f, S_H - 550.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(550.0f, S_H - 710.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(50.0f, S_H - 760.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
+        new Object(0.0f, S_H - 750.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
     };
 
 
@@ -58,7 +61,7 @@ int main()
 
     // Load background texture
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("assets/background/elation.png")) {
+    if (!backgroundTexture.loadFromFile("../assets/background/elation.png")) {
         // Handle error - maybe use a fallback color
         std::cerr << "Failed to load background texture!" << std::endl;
     }
@@ -88,7 +91,7 @@ int main()
 
         // Stickman input
         stickman.handleInput();
-        stickman.update(deltaTime, obstacles);
+        stickman.update(deltaTime, obstacles, enemies);
 
         enemy.update(deltaTime, obstacles);
 
