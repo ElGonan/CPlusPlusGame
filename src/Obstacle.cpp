@@ -8,6 +8,15 @@ Obstacle::Obstacle(float posX, float posY, float width, float height, sf::Color 
     o_shape.setFillColor(color);
 }
 
+Obstacle::~Obstacle() {
+    // Destructor implementation (if needed)
+}
+
+void Obstacle::draw(sf::RenderWindow &window) {
+    window.draw(o_shape);
+}
+
+
 sf::FloatRect Obstacle::getBounds() const {
     return o_shape.getGlobalBounds();
 }

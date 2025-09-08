@@ -1,6 +1,7 @@
 #include "Stickman.h"
 #include "globals.h"
 #include "Obstacle.h"
+#include "Object.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <algorithm>
@@ -33,12 +34,18 @@ void Stickman::handleInput() {
     }
 }
 
-void Stickman::checkCollision(const Obstacle& obstacle) {
+void Stickman::checkCollision(Obstacle& obstacle) {
     sf::FloatRect stickmanBounds = m_shape.getGlobalBounds();
     sf::FloatRect obstacleBounds = obstacle.getBounds();
 
     auto intersection = stickmanBounds.findIntersection(obstacleBounds);
     if (intersection != std::nullopt) {
+        
+        Object* obj = dynamic_cast<Object*>(&obstacle);
+        if (obj) {
+            obj->onContact();
+        }
+        
         float intersectWidth = intersection->size.x;
         float intersectHeight = intersection->size.y;
 
@@ -70,7 +77,7 @@ void Stickman::checkCollision(const Obstacle& obstacle) {
     }
 }
 
-void Stickman::update(float deltaTime, const std::vector<Obstacle>& obstacles) {
+void Stickman::update(float deltaTime, const std::vector<Obstacle*>& obstacles) {
     // Apply gravity
     m_velocity.y += GRAVITY * deltaTime;
     
@@ -78,10 +85,9 @@ void Stickman::update(float deltaTime, const std::vector<Obstacle>& obstacles) {
     m_shape.move(m_velocity * deltaTime);
 
     // Check for collisions with all obstacles
-    for (const auto& obstacle : obstacles) {
-        checkCollision(obstacle);
+    for (Obstacle* obstacle : obstacles) {
+        checkCollision(*obstacle);
     }
-    
 
     handleInput();
     

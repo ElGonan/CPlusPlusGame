@@ -8,6 +8,7 @@ class Obstacle {
         sf::Vector2f o_size;
 
     public:
+        virtual ~Obstacle();
         Obstacle(float posX, 
             float posY, 
             float width, 
@@ -17,9 +18,7 @@ class Obstacle {
         sf::Vector2f getPosition() const { return o_position;}
         sf::Vector2f getSize() const { return o_size;}
 
-        void draw(sf::RenderWindow &window) const {
-            window.draw(o_shape);
-        }
+        virtual void draw(sf::RenderWindow &window);
 
         sf::FloatRect getBounds() const;
 };
