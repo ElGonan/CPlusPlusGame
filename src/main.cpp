@@ -24,7 +24,7 @@ int main()
 
     // Entity objects
     Stickman stickman(STICKMAN_HEIGHT, STICKMAN_WIDTH);
-    Enemy enemy(STICKMAN_HEIGHT, STICKMAN_WIDTH+50.0f);
+    Enemy enemy(STICKMAN_HEIGHT, STICKMAN_WIDTH + 50.0f);
     // Obstacle objects
     // Obstacle floor = Obstacle(-9999.0f, S_H, 99999.0f, 20.0f, sf::Color::Black); 
     // Obstacle platform = Obstacle(200.0f, S_H - 150.0f, 200.0f, 20.0f, sf::Color::Cyan);
@@ -40,7 +40,7 @@ int main()
 
     // Load background texture
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("../assets/background/elation.png")) {
+    if (!backgroundTexture.loadFromFile("assets/background/elation.png")) {
         // Handle error - maybe use a fallback color
         std::cerr << "Failed to load background texture!" << std::endl;
     }

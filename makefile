@@ -1,5 +1,5 @@
 TARGET = exec
-SRC = src/main.cpp src/Stickman.cpp src/globals.cpp src/Camera.cpp src/Obstacle.cpp
+SRC = src/main.cpp src/Stickman.cpp src/globals.cpp src/Camera.cpp src/Obstacle.cpp src/Enemy.cpp
 
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -O2
