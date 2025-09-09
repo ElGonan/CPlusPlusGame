@@ -1,6 +1,13 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 #include <SFML/Graphics.hpp>
+#include <string>
+
+
+// routes
+extern std::string fontPath;
+extern std::string spritePath;
+extern std::string backgroundPath;
 
 // Screen dimensions
 extern const float S_W;

@@ -1,6 +1,18 @@
 #include "globals.h"
 #include <SFML/Graphics.hpp>
 
+
+// My god, THESE PATHS ARE FOR WINDOWS, uncomment and comment the others if you're on Windows
+// std::string fontPath = "../assets/fonts/minecraft_font.ttf";
+// std::string spritePath = "../assets/sprite/potion.png";
+// std::string backgroundPath = "../assets/background/elation.png";
+
+// Linux & macOS paths
+std::string fontPath = "assets/fonts/minecraft_font.ttf";
+std::string spritePath = "assets/sprite/potion.png";
+std::string backgroundPath = "assets/background/elation.png";
+
+
 const float S_H = 800.0f;
 const float S_W = 1000.0f;
 
