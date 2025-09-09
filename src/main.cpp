@@ -13,8 +13,7 @@ int main()
 
     int collectedObjects = 0;
     
-    // New font @mirabay
-    const sf::Font font("../assets/fonts/minecraft_font.ttf");
+    const sf::Font font(fontPath);
     sf::Text counterText(font, "Potions: 0", 24);
     counterText.setFillColor(sf::Color::Black);
 
@@ -42,11 +41,11 @@ int main()
         new Obstacle(1000.0f, S_H - 450.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higher Platform
         new Obstacle(500.0f, S_H - 600.0f, 200.0f, 20.0f, sf::Color::Cyan),  // Even Higherer Platform
         new Obstacle(0.0f, S_H - 750.0f, 600.0f, 20.0f, sf::Color::Cyan),  // Even Highererer Platform
-        new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(1010.0f, S_H - 550.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(550.0f, S_H - 710.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(50.0f, S_H - 760.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green), // Object to interact with
-        new Object(0.0f, S_H - 750.0f, 100.0f, 100.0f, "../assets/sprite/potion.png" , sf::Color::Green) // Object to interact with
+        new Object(600.0f, S_H - 150.0f, 100.0f, 100.0f, spritePath, sf::Color::Green), // Object to interact with
+        new Object(1010.0f, S_H - 550.0f, 100.0f, 100.0f, spritePath, sf::Color::Green), // Object to interact with
+        new Object(550.0f, S_H - 710.0f, 100.0f, 100.0f, spritePath, sf::Color::Green), // Object to interact with
+        new Object(50.0f, S_H - 760.0f, 100.0f, 100.0f, spritePath, sf::Color::Green), // Object to interact with
+        new Object(0.0f, S_H - 750.0f, 100.0f, 100.0f, spritePath, sf::Color::Green) // Object to interact with
     };
 
 
@@ -55,7 +54,7 @@ int main()
 
     // Load background texture
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("../assets/background/elation.png")) {
+    if (!backgroundTexture.loadFromFile(backgroundPath)) {
         // Handle error - maybe use a fallback color
         std::cerr << "Failed to load background texture!" << std::endl;
     }
@@ -92,7 +91,8 @@ int main()
         camera.setTarget(stickman.getPosition());
         camera.update(deltaTime);
         camera.applyToWindow(window);
-        counterText.setPosition(sf::Vector2f(camera.getCenter().x - S_W / 2 + 10, camera.getCenter().y - S_H / 2 + 10));
+        counterText.setPosition(sf::Vector2f(camera.getCenter().x - S_W / 2 + 10, 
+        camera.getCenter().y - S_H / 2 + 10));
 
         // Draw the background
         window.draw(backgroundSprite);
