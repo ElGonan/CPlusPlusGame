@@ -13,6 +13,9 @@ class Stickman {
     sf::Vector2f m_velocity;
     sf::Color m_color;
 
+    float m_HP;
+    const float m_maxHP;
+
     const float m_speed; // pixels per second
     const float m_jumpHeight; // pixels
     bool m_IsJumping; // pixels
@@ -55,6 +58,10 @@ class Stickman {
     virtual bool isEnemy() const { return false; };
 
     virtual sf::RectangleShape getShape() const { return m_shape; }
+
+    void takeDamage(float damage){
+        m_HP -= damage;
+    }
 };
 
 #endif //STICKMAN_H

@@ -19,6 +19,6 @@ float STICKMAN_JUMP_HEIGHT = 750.0f;
 float STICKMAN_SIZE = 50.0f;
 
 // Camera settings
-float CAMERA_SMOOTHING = 1.0f;
+float CAMERA_SMOOTHING = 0.07f;
 float CAMERA_INITIAL_POS_X = S_W / 2.0f;
 float CAMERA_INITIAL_POS_Y = S_H / 2.0f;

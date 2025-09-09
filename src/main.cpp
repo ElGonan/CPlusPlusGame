@@ -86,7 +86,7 @@ int main()
         // Stickman input
         stickman.update(deltaTime, obstacles, enemies);
 
-        enemy.update(deltaTime, obstacles);
+        enemy.update(deltaTime, obstacles, stickman);
 
         // Update view to follow stickman
         camera.setTarget(stickman.getPosition());

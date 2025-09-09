@@ -16,7 +16,10 @@ Stickman::Stickman(float startX, float startY) :
     m_isPushed(false),
     m_pushForce(300.0f),
     m_pushDuration(0.2f),
-    m_pushTimer(0.0f)
+    m_pushTimer(0.0f),
+    m_HP(100.0f),
+    m_maxHP(100.0f)
+
 {
     m_shape.setSize(sf::Vector2f(STICKMAN_SIZE, STICKMAN_SIZE));
     m_shape.setPosition(sf::Vector2f(startX, startY));

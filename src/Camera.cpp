@@ -12,7 +12,7 @@ Camera::Camera(float width, float height, float smooth)
 void Camera::setTarget(const sf::Vector2f& position) {
     // targetPosition = position;
     // Offset the target position to have the stickman slightly lower in the screen
-    targetPosition = sf::Vector2f(position.x, position.y - STICKMAN_HEIGHT / 5.25f);
+    targetPosition = sf::Vector2f(position.x, position.y - STICKMAN_HEIGHT / 3.25f);
 }
 
 void Camera:: update(float deltaTime) {
